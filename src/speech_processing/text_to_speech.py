@@ -7,9 +7,10 @@ load_dotenv()
 
 class TTS:
     def __init__(self):
-        self.filename = "output.wav"
+        # self.filename is no longer needed as it will be passed to speak method
+        pass
     
-    def speak(self, text):
+    def speak(self, text, file_path):
         try:
             # STEP 1: Create a Deepgram client using the API key from environment variables
             deepgram = DeepgramClient(api_key=os.getenv("DEEPGRAM_API_KEY"))
@@ -21,12 +22,11 @@ class TTS:
                 container="wav"
             )
 
-            # STEP 3: Call the save method on the speak property
+            # STEP 3: Call the save method on the speak property, using the provided file_path
             SPEAK_OPTIONS = {"text": text}
-            response = deepgram.speak.v("1").save(self.filename, SPEAK_OPTIONS, options)
+            response = deepgram.speak.v("1").save(file_path, SPEAK_OPTIONS, options)
 
-            # STEP 4: Play the audio file
-            playsound(self.filename)
+            # Removed: playsound(self.filename) as audio will be sent to frontend
 
         except Exception as e:
             print(f"Exception: {e}")

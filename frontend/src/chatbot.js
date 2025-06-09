@@ -25,6 +25,12 @@ const Chatbot = () => {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
+
+      if (data.audio) {
+        const audio = new Audio("data:audio/wav;base64," + data.audio);
+        audio.play();
+      }
+
       return data.reply || "Sorry, I did not understand.";
     } catch (error) {
       console.error("Error fetching assistant reply:", error);
