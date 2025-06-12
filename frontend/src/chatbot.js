@@ -195,7 +195,7 @@ const Chatbot = () => {
           className={`speech-button ${isRecognizing ? "recording" : ""}`}
           onClick={isRecognizing ? stopSpeechRecognition : startSpeechRecognition}
         >
-          {isRecognizing ? "Stop" : "Start"}
+          {isRecognizing ? "🎙️Stop" : "🎙️Start"}
         </button>
 
         <button className="send-button" onClick={handleSend}>
