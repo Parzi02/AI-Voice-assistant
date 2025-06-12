@@ -108,6 +108,25 @@ def handle_full_sentence(full_sentence):
     global transcription_response
     transcription_response = full_sentence
 
+class STT:
+    def __init__(self):
+        self.transcription_response = ""
+
+    def handle_full_sentence(self, full_sentence):
+        self.transcription_response = full_sentence
+
+    def transcribe(self, audio_file_path):
+        try:
+            deepgram = DeepgramClient(os.getenv("DEEPGRAM_API_KEY"))
+            with open(audio_file_path, "rb") as audio:
+                source = {"buffer": audio.read(), "mimetype": "audio/wav"}
+                response = deepgram.listen.prerecorded.v("1").transcribe_file(source, {"punctuate": True})
+                return response.results.channels[0].alternatives[0].transcript
+        except Exception as e:
+            print(f"Error transcribing audio: {e}")
+            return ""
+
+
 if __name__ == "__main__":
     # Run the get_transcript function and pass handle_full_sentence as the callback
     asyncio.run(get_transcript(handle_full_sentence))

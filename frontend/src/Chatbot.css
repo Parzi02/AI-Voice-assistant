@@ -98,6 +98,29 @@
   background-color: #6a1b9a;
 }
 
+.microphone-button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #28a745;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-left: 10px; /* Adjust as needed for spacing */
+}
+
+.microphone-button:hover {
+  background-color: #218838;
+}
+
+.microphone-button.recording {
+  background-color: #dc3545;
+}
+
+.microphone-button.recording:hover {
+  background-color: #c82333;
+}
+
 /* Set full-page background color */
 body {
   margin: 0;
@@ -114,3 +137,16 @@ body {
   100% { background-position: 0% 50%; }
 }
 
+.speech-button {
+  background-color: #6a5acd;
+  color: white;
+  border: none;
+  padding: 8px 10px;
+  margin-left: 5px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.speech-button.recording {
+  background-color: red;
+}

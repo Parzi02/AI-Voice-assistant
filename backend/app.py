@@ -15,6 +15,7 @@ from src.tools.contacts import AddContactTool, FetchContactTool
 from src.tools.emails.emailing_tool import EmailingTool
 from src.tools.search import SearchWebTool, KnowledgeSearchTool
 from src.speech_processing.conversation_manager import ConversationManager
+from src.speech_processing.speech_to_text import STT
 from src.prompts.prompts import assistant_prompt
 from dotenv import load_dotenv
 from src.speech_processing.text_to_speech import TTS
@@ -67,6 +68,39 @@ async def handle_message(message: Message):
     # Read the audio file and encode it to base64
     import base64
     with open(audio_file_path, "rb") as audio_file:
+        encoded_audio = base64.b64encode(audio_file.read()).decode("utf-8")
+
+    return {"reply": reply, "audio": encoded_audio}
+
+class Audio(BaseModel):
+    audio: str
+
+@app.post("/api/audio")
+async def handle_audio(audio: Audio):
+    print("Received audio from frontend")
+    # Decode the base64 audio
+    audio_data = base64.b64decode(audio.audio)
+
+    # Save the audio to a temporary file
+    audio_file_path = "input_audio.wav"
+    with open(audio_file_path, "wb") as f:
+        f.write(audio_data)
+
+    # Convert audio to text
+    stt = STT()
+    text_message = stt.transcribe(audio_file_path)
+    print(f"Transcribed text: {text_message}")
+
+    # Process the text message using the agent
+    reply = agent.invoke(text_message)
+
+    # Convert reply to speech
+    tts = TTS()
+    output_audio_file_path = "output.wav"
+    tts.speak(reply, output_audio_file_path)
+
+    # Read the audio file and encode it to base64
+    with open(output_audio_file_path, "rb") as audio_file:
         encoded_audio = base64.b64encode(audio_file.read()).decode("utf-8")
 
     return {"reply": reply, "audio": encoded_audio}
