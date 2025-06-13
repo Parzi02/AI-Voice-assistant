@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./Chatbot.css";
+import { signOut } from 'firebase/auth';
+import { auth } from './Firebase/Firebase';
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([
@@ -162,9 +164,20 @@ const Chatbot = () => {
     }
   };
 
+  const handleLogout = () => {
+    signOut(auth).then(() => {
+      console.log('User signed out');
+    }).catch((error) => {
+      console.error('Sign out error:', error);
+    });
+  };
+
   return (
     <div className="chatbot-container">
-      <div className="chatbot-header">Chatbot</div>
+      <div className="chatbot-header">
+        Chatbot
+        <button onClick={handleLogout} style={{ float: 'right' }}>Logout</button>
+      </div>
       <div className="chat-window">
         {messages.map((msg, idx) => (
           <div
