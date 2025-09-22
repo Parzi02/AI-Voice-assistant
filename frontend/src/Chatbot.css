@@ -1,4 +1,12 @@
-/* chatbot.css */
+/* chatbot.css – Modernized & cleaned */
+
+:root {
+  --accent-primary: #8a2be2;
+  --accent-secondary: #00eaff;
+  --bg-glass: rgba(26, 26, 46, 0.5);
+  --text-light: #ffffff;
+  --text-dark: #000000;
+}
 
 .chatbot-container {
   max-width: 480px;
@@ -8,54 +16,59 @@
   height: 650px;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
-  color: #ffffff;
+  color: var(--text-light);
   overflow: hidden;
+
+  /* Frosted glass */
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
 }
 
 .chatbot-header {
   padding: 20px;
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: 700;
   text-align: center;
-  border-bottom: 2px solid #8a2be2;
-  color: #00eaff;
-  background-color: #1a1a2e;
+  border-bottom: 2px solid var(--accent-primary);
+  color: var(--accent-secondary);
+  background: transparent;
 }
 
 .chat-window {
   flex: 1;
   padding: 20px;
-  background-color: #121212;
-  border-radius: 0 0 15px 15px;
+  background: transparent;
   color: #f1f1f1;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 14px;
+  scroll-behavior: smooth;
 }
 
 .message {
   max-width: 70%;
   padding: 14px 20px;
-  font-size: 16px;
+  font-size: 1rem;
   border-radius: 25px;
   word-wrap: break-word;
   line-height: 1.5;
 }
 
 .user-message {
-  background-color: #5e35b1;
-  color: #ffffff;
+  background: #5e35b1;
+  color: var(--text-light);
   align-self: flex-end;
   border-bottom-right-radius: 0;
   box-shadow: 0 4px 10px rgba(94, 53, 177, 0.6);
 }
 
 .assistant-message {
-  background-color: #00eaff;
-  color: #000000;
+  background: var(--accent-secondary);
+  color: var(--text-dark);
   align-self: flex-start;
   border-bottom-left-radius: 0;
   box-shadow: 0 4px 10px rgba(0, 234, 255, 0.6);
@@ -64,104 +77,69 @@
 .input-area {
   display: flex;
   padding: 20px;
-  background: #1a1a2e;
+  background: transparent;
   gap: 15px;
-  border-radius: 0 0 15px 15px;
 }
 
 .textarea {
   flex: 1;
   border-radius: 30px;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   padding: 15px 22px;
-  font-size: 16px;
+  font-size: 1rem;
   resize: none;
   outline: none;
-  color: #fff;
-  background-color: #2c3e50;
+  color: var(--text-light);
+  background: rgba(44, 62, 80, 0.7);
   box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.1);
 }
 
 .send-button {
-  background-color: #8a2be2;
+  background: var(--accent-primary);
   border: none;
   border-radius: 30px;
   padding: 0 30px;
   font-weight: 700;
-  color: white;
+  color: var(--text-light);
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background 0.3s ease;
   box-shadow: 0 4px 15px rgba(138, 43, 226, 0.6);
 }
-
-.send-button:hover {
-  background-color: #6a1b9a;
-}
+.send-button:hover { background: #6a1b9a; }
 
 .microphone-button {
   padding: 10px 15px;
   border: none;
   border-radius: 5px;
-  background-color: #28a745;
-  color: white;
+  background: #28a745;
+  color: var(--text-light);
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-left: 10px; /* Adjust as needed for spacing */
+  transition: background 0.3s ease;
+  margin-left: 10px;
 }
-
-.microphone-button:hover {
-  background-color: #218838;
-}
-
-.microphone-button.recording {
-  background-color: #dc3545;
-}
-
-.microphone-button.recording:hover {
-  background-color: #c82333;
-}
-
-/* Set full-page background color */
-body {
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(-45deg, #ff69b4, #c850c0, #4158d0, #1e90ff);
-  background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
+.microphone-button:hover { background: #218838; }
+.microphone-button.recording { background: #dc3545; }
+.microphone-button.recording:hover { background: #c82333; }
 
 .speech-button {
-  background-color: #6a5acd;
-  color: white;
+  background: #6a5acd;
+  color: var(--text-light);
   border: none;
   padding: 8px 10px;
   margin-left: 5px;
   cursor: pointer;
   border-radius: 4px;
 }
-
-.speech-button.recording {
-  background-color: red;
-}
+.speech-button.recording { background: red; }
 
 .logout-button {
   margin-left: auto;
-  background-color: #f44336;
-  color: white;
+  background: #f44336;
+  color: var(--text-light);
   border: none;
   padding: 6px 12px;
   border-radius: 4px;
   cursor: pointer;
   font-weight: bold;
 }
-
-.logout-button:hover {
-  background-color: #d32f2f;
-}
+.logout-button:hover { background: #d32f2f; }

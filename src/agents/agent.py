@@ -16,22 +16,15 @@ class Agent:
         if self.system_prompt and not self.messages:
             self.handle_messages_history("system", self.system_prompt)
 
-    def invoke(self, message):
-        print(Fore.GREEN + f"\nCalling Agent: {self.name}")
-        self.handle_messages_history("user", message)
+    def invoke(self, message: str):
+        self.message = message
         result = self.execute()
         return result
 
     def execute(self):
-        response_message = self.call_llm()
-        response_content = response_message.content
-        tool_calls = response_message.tool_calls
-        if tool_calls:
-            try:
-                response_content = self.run_tools(tool_calls)
-            except Exception as e:
-                print(Fore.RED + f"\nError: {e}\n")
-        return response_content
+        user_input = self.message
+        response_message = self.call_llm(user_input)
+        return response_message
 
     def run_tools(self, tool_calls):
         for tool_call in tool_calls:
@@ -42,11 +35,11 @@ class Agent:
     def execute_tool(self, tool_call):
         function_name = tool_call.function.name
         func = next(
-            iter([func for func in self.tools if func.__name__ == function_name])
+            iter([func for func in self.tools if func.name == function_name]), None
         )
 
         if not func:
-            return f"Error: Function {function_name} not found. Available functions: {[func.__name__ for func in self.tools]}"
+            return f"Error: Function {function_name} not found. Available functions: {[func.name for func in self.tools]}"
 
         try:
             print(Fore.GREEN + f"\nCalling Tool: {function_name}")
@@ -62,22 +55,28 @@ class Agent:
             print("Error: ", str(e))
             return "Error: " + str(e)
 
-    def call_llm(self):
+    def call_llm(self, user_input: str):
         response = completion(
-            model=self.model,
-            messages=self.messages,
-            tools=self.tools_schemas,
-            temperature=0.1,
+            model="groq/llama-3.3-70b-versatile",  # ✅ updated supported model
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": user_input},
+            ],
         )
+
         message = response.choices[0].message
-        if message.tool_calls is None:
+
+        # Ensure attributes are safe
+        if not hasattr(message, "tool_calls") or message.tool_calls is None:
             message.tool_calls = []
-        if message.function_call is None:
+        if not hasattr(message, "function_call") or message.function_call is None:
             message.function_call = {}
+
+        # Save in conversation history
         self.handle_messages_history(
             "assistant", message.content, tool_calls=message.tool_calls
         )
-        return message
+        return message.content
 
     def get_openai_tools_schema(self):
         return [
@@ -85,7 +84,6 @@ class Agent:
         ]
 
     def reset(self):
-        self.memory.clear_messages()
         self.messages = []
         if self.system_prompt:
             self.handle_messages_history("system", self.system_prompt)
@@ -97,7 +95,6 @@ class Agent:
         if tool_output:
             message["name"] = tool_output["name"]
             message["tool_call_id"] = tool_output["tool_call_id"]
-        # save short-term memory
         self.messages.append(message)
 
     def parse_tool_calls(self, calls):

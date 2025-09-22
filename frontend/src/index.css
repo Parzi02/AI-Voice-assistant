@@ -1,3 +1,5 @@
+/* index.css */
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,6 +7,17 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* The login container will now cover this background */
+  background: linear-gradient(to right, #2575fc, #6a11cb);
+  
+  color: #e0e0e0;
+  min-height: 100vh;
+
+  /* REMOVED the following lines to stop centering the container */
+  /* display: flex; */
+  /* justify-content: center; */
+  /* align-items: center; */
 }
 
 code {

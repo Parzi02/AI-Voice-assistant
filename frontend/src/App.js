@@ -1,8 +1,9 @@
 import React from 'react';
 import { auth } from './Firebase/Firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import Auth from './Auth';
+import Auth from './components/AuthPage';
 import Chatbot from './chatbot';
+import AuthPage from './components/AuthPage';
 
 function App() {
   const [user, setUser] = React.useState(null);
@@ -16,7 +17,7 @@ function App() {
 
   return (
     <div className="App">
-      {user ? <Chatbot /> : <Auth />}
+      {user ? <Chatbot /> : <AuthPage />}
     </div>
   );
 }
