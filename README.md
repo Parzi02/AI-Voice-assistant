@@ -44,6 +44,8 @@ This project is an advanced AI Voice Assistant that integrates Text-to-Speech (T
 
 - Deepgram API key (for voice processing)
 
+- Firebase project configuration (for the frontend)
+
 - Necessary Python libraries (listed in `requirements.txt`)
 
 ### Setup
@@ -80,7 +82,11 @@ GEMINI_API_KEY=your_gemini_api_key
 GROQ_API_KEY=your_groq_api_key
 ```
 
-5. **Configure Google API credentials:**
+5. **Configure Firebase:**
+
+Update the Firebase configuration in `frontend/src/Firebase/Firebase.js` with your Firebase project credentials. Ensure you replace `your_firebase_api_key_here` with your actual Firebase API key.
+
+6. **Configure Google API credentials:**
 
 Follow Google's documentation to set up credentials for Calendar, Contacts, and Gmail APIs. Save the credentials file in a secure location and update the path in the configuration file.
 
